@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  --color-dashboard-primary: #1E1E28;        /* Main dark background */
+  --color-dashboard-secondary: #242436;      /* Inner panel background */
+  --color-dashboard-input-border: #3A3A50;   /* Subtle input borders */
+  --color-dashboard-accent-blue: #5051F9;    /* Primary interactive blue/purple */
+  --color-dashboard-accent-orange: #FE7E2E;  /* Secondary interactive orange */
+  --color-dashboard-text-subtle: #B0B0C4;    /* Placeholder/less important text */
+  --color-dashboard-hover-blue: #6A6CFF;     /* Lighter blue for hover state */
+  --color-dashboard-hover-orange: #FF9B5E;   /* Lighter orange for hover state */
+}
