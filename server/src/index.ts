@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import { taskRoutes } from './routes/task.route';
 import { projectRoutes } from './routes/project.route';
 import cors from 'cors';
+import { authRoutes } from './routes/auth.route';
 
 connectDB();
 
@@ -24,7 +25,8 @@ app.use(
 const apiRoutes:object = {
     user: userRoutes,
     task: taskRoutes,
-    project: projectRoutes
+    project: projectRoutes,
+    auth: authRoutes
 }
 for (const [endpoint,route] of Object.entries(apiRoutes)){
     app.use(`/api/${endpoint}`, route);

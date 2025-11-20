@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useApiResponseStore } from "../store/apiResponce";
-import { useUserAuthStore } from "../store/userAuth";
 
 interface LoginData {
     email: string;
@@ -10,26 +9,24 @@ interface LoginData {
 
 const Login = () => {
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
-    const { setIsAuthenticated } = useUserAuthStore();
-    const { apiResponse, getApiResponse } = useApiResponseStore();
+    const { postApiResponse } = useApiResponseStore();
     const [loginData, setLoginData] = useState<LoginData>({
         email: "",
         password: "",
     })
+    const Navigate = useNavigate();
 
+    const submitLoginForm = async() => {
+        console.log("Login Data:", loginData);
+        const res = await postApiResponse("/user/login", loginData);
+        console.log("Login Response:", res);
+        if (res && res.authentication == true) {
+            Navigate("/");
+        } else {
+            alert(res.message || "Login failed");
+        }
+    }
 
-    useEffect(() => {
-        const checkAuth = async () => {
-            await getApiResponse("/user/users");
-            if (apiResponse != null) {
-                const auth = (apiResponse as any).authentication;
-                if (auth) setIsAuthenticated(auth);
-            } else {
-                setIsAuthenticated(false);
-            }
-        };
-        checkAuth();
-    }, []);
 
 
     return (
@@ -49,6 +46,8 @@ const Login = () => {
                     <input
                         type={isPasswordVisible ? "text" : "password"}
                         placeholder="Password"
+                        value={loginData.password}
+                        onChange={(e) => setLoginData((prev) => ({ ...prev, password: e.target.value }))}
                         className="w-full p-4 rounded-lg text-white text-base bg-dashboard-primary border border-dashboard-input-border focus:outline-none focus:border-dashboard-accent-blue transition placeholder-dashboard-text-subtle"
                     />
 
@@ -60,7 +59,9 @@ const Login = () => {
                     </span>
                 </div>
 
-                <button className="w-full p-4 rounded-lg text-lg font-bold transition duration-300 bg-dashboard-accent-blue hover:bg-dashboard-hover-blue">
+                <button className="w-full p-4 rounded-lg text-lg font-bold transition duration-300 bg-dashboard-accent-blue hover:bg-dashboard-hover-blue"
+                onClick={submitLoginForm}
+                >
                     Login
                 </button>
 

@@ -1,16 +1,20 @@
+import Sidebar from "../components/Sidebar";
+import { Outlet } from "react-router-dom";
 
-import React from 'react'
 
-interface Props {
-    
-}
 
-const Dashboard = (props: Props) => {
-    return (
-        <div>
-            Dashboard
-        </div>
-    )
-}
+const Dashboard = () => {
+  return (
+    <div className="flex h-screen bg-dashboard-secondary">
+      {/* Sidebar */}
+      <Sidebar />
 
-export default Dashboard
+      {/* Main Content */}
+      <div className="flex-1 p-6  bg-dashboard-primary text-white overflow-auto">
+        <Outlet />
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;

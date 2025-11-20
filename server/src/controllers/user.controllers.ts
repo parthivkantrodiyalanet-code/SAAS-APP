@@ -39,7 +39,7 @@ const getAllUsers = async (req: Request, res: Response) => {
 const loginUser = async (req: userRequest, res: Response) => {
     const { email, password } = req.body;
     const existingUser = await user.findOne({ email: email }).select('+password');
-    console.log(existingUser);
+    // console.log(existingUser?.password);
     if (!existingUser) {
         return res.status(404).json({
             data: null,
@@ -64,7 +64,7 @@ const loginUser = async (req: userRequest, res: Response) => {
     }
     const token = generateToken(payload, 600);
 
-    res.cookie('token', token, { httpOnly: true, maxAge: 600000 });
+    res.cookie('token', token, { httpOnly: true, maxAge: 600000 , sameSite: 'lax' , secure: false });
     res.status(200).json({
         data: existingUser,
         authentication: true,

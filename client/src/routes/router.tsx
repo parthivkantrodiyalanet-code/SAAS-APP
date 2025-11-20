@@ -6,25 +6,31 @@ import Profile from '../pages/Profile';
 import Projects from '../pages/Projects';
 import Settings from '../pages/Settings';
 import Tasks from '../pages/Tasks';
-import Workspace from '../pages/Workspace' ;
+import Workspace from '../pages/Workspace';
 import Register from '../pages/Register';
 import ProtectedRoute from '../routes/ProtectedRoute';
 
 const router = createBrowserRouter([
-  // Public routes
+  // Public
   { path: '/login', element: <Login /> },
   { path: '/register', element: <Register /> },
 
-  // Private routes
-  { path: '/', element: <ProtectedRoute element={<Dashboard />} /> },
-  { path: '/logout', element: <ProtectedRoute element={<Logout />} /> },
-  { path: '/profile', element: <ProtectedRoute element={<Profile />} /> },
-  { path: '/projects', element: <ProtectedRoute element={<Projects />} /> },
-  { path: '/tasks', element: <ProtectedRoute element={<Tasks />} /> },
-  { path: '/workspace', element: <ProtectedRoute element={<Workspace />} /> },
-  { path: '/settings', element: <ProtectedRoute element={<Settings />} /> },
+  // Private + Dashboard layout
+  {
+    path: '/',
+    element: <ProtectedRoute element={<Dashboard />} />,
+    children: [
+      { index: true, element: <Navigate to="/projects" replace /> },
+      { path: 'projects', element: <Projects /> },
+      { path: 'tasks', element: <Tasks /> },
+      { path: 'workspace', element: <Workspace /> }, 
+      { path: 'settings', element: <Settings /> },
+      { path: 'profile', element: <Profile /> },
+      { path: 'logout', element: <Logout /> },
+    ],
+  },
 
-  // Fallback redirect
+  // Fallback
   { path: '*', element: <Navigate to="/" replace /> },
 ]);
 
